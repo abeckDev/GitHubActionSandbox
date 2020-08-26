@@ -36,10 +36,12 @@ jobs:
       working-directory: baseVersion
       run: |
         baseVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
-        echo "Incoming Version: $baseVersion"   
+        echo "Base Version: $baseVersion"   
+        echo "Incoming Version: $newVersion"
         
     - name: Compare Version
       run: |
+        env
         echo PR: $newVersion and Base: $baseVersion
         if [ "$newVersion" != "$baseVersion" ]
         then
