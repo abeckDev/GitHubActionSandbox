@@ -20,6 +20,13 @@ jobs:
         echo "::set-env name=currentVersion::$currentVersion"
         echo "Current Version: $currentVersion"
     
+    
+    - name: Git Message
+      id: commitMessage
+      # You may pin to the exact commit or the version.
+      # uses: kceb/git-message-action@e6f4d4a48a0777818488be338da060d50933824e
+      uses: kceb/git-message-action@v1    
+    
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -28,9 +35,6 @@ jobs:
       with:
         tag_name: v${{ env.currentVersion }}
         release_name: Version ${{ env.currentVersion }}
-        body: |
-          Changes in this Release
-          - First Change
-          - Second Change
+        body: ${{ steps.commitMessage.outputs.git-message }}
         draft: false
         prerelease: false
