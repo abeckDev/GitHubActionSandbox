@@ -16,12 +16,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    
-    - name: DebugUploadUrl
-      run: |
-        echo "Token: ${{ github.event.upload_url }}"
-        echo "Token 2: ${{ github.event.release.upload_url }}
-    
+        
     - name: Install dependencies
       working-directory: src/
       run: dotnet restore
@@ -52,7 +47,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ github.event.upload_url }}
+        upload_url: ${{ github.event.release.upload_url }}
         asset_path: /home/runner/work/sampleApp/drop.zip
         asset_name: ApplicationPackage
         asset_content_type: application/zip
