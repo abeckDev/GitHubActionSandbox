@@ -10,7 +10,7 @@ on:
       - src/Dockerfile
 
 env:
-  IMAGE_NAME: sampleDockerApp
+  IMAGE_NAME: sampledockerapp
 
 jobs:
   test:
