@@ -1,0 +1,52 @@
+on:
+  pull_request:
+    branches: [ master ]
+  
+name: Validate Version is increased
+
+jobs:
+  validateVersion:
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Checkout Pull Request Version
+      uses: actions/checkout@v2
+      with:
+        path: newVersion    
+    
+    - name: Checkout base Version
+      uses: actions/checkout@v2
+      with:
+        ref: $(github.base_ref)
+        path: baseVersion    
+        
+    - name: Download XML Starlet
+      run: sudo apt-get update; sudo apt-get install xmlstarlet -y
+  
+    - name: Determine incoming Version
+      working-directory: newVersion
+      run: |
+        newVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
+        echo "Incoming Version: $newVersion"
+        
+    - name: Determine base Version 
+      working-directory: baseVersion
+      run: |
+        baseVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
+        echo "Incoming Version: $baseVersion"   
+        
+    - name: Compare Version
+      run: |
+        if [ "$newVersion" != "$baseVersion" ]
+        then
+            echo "Version is diffrent. OK"
+            exit 0
+        else
+            echo "Version did not change. ERROR"
+            exit 1
+        fi
+        exit 2
+             
+        
+        
+        
