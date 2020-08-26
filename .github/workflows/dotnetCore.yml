@@ -16,7 +16,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-        
+    
+    - name: DebugUploadUrl
+      run: |
+        echo "Token: ${{ github.event.upload_url }}"
+        echo "Token 2: ${{ github.event.release.upload_url }}
+    
     - name: Install dependencies
       working-directory: src/
       run: dotnet restore
