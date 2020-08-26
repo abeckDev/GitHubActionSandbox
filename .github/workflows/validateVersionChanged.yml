@@ -8,6 +8,9 @@ jobs:
   validateVersion:
     runs-on: ubuntu-latest
     steps:
+    
+    - name: Debug Vars
+      run: env
       
     - name: Checkout Pull Request Version
       uses: actions/checkout@v2
@@ -17,7 +20,7 @@ jobs:
     - name: Checkout base Version
       uses: actions/checkout@v2
       with:
-        ref: $(github.base_ref)
+        ref: $github.base_ref
         path: baseVersion    
         
     - name: Download XML Starlet
