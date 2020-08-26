@@ -1,9 +1,7 @@
 name: Docker Build
 on:
- # push:
-  #  branches: [ master ]
-   # paths: 
-    #  - src/**
+  release:
+    types: [created]
   pull_request:
     branches: [ master ]
     paths: 
@@ -37,7 +35,7 @@ jobs:
   push:
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'release'
     steps:
       - uses: actions/checkout@v2
       - name: Download XML Starlet
@@ -71,7 +69,6 @@ jobs:
           echo VERSION=$VERSION
           currentVersion=$(xmlstarlet sel -t -v '//Version' SampleWebApi.csproj)
           
-
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$currentVersion
           docker push $IMAGE_ID:$VERSION
