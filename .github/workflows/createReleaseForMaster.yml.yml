@@ -19,21 +19,15 @@ jobs:
         currentVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
         echo "::set-env name=currentVersion::$currentVersion"
         echo "Current Version: $currentVersion"
-        
-    - name: Debug Vars
-      run: |
-        env
-        echo "Version $currentVersion and $(currentVersion)"
     
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        currentVersion: $currentVersion
       with:
-        tag_name: v$currentVersion
-        release_name: Version $currentVersion
+        tag_name: v${{ env.currentVersion }}
+        release_name: Version ${{ env.currentVersion }}
         body: |
           Changes in this Release
           - First Change
