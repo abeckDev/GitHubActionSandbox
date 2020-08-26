@@ -17,6 +17,7 @@ jobs:
     - name: Determine current Version
       run: |
         currentVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
+        echo "::set-env name=currentVersion::$currentVersion"
         echo "Current Version: $currentVersion"
     
     - name: Commit tagger
@@ -27,4 +28,4 @@ jobs:
         # Tag text
         tag: v$(currentVersion)
         # optional commit sha to apply the tag to
-        commit-sha: $(GITHUB_SHA)
+        commit-sha: ${{ github.sha }}
