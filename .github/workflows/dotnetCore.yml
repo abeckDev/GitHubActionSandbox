@@ -1,9 +1,7 @@
 name: .Net Core Build
 on:
- # push:
-  #  branches: [ master ]
-   # paths: 
-    #  - src/**
+  release:
+    types: [ created ]
   pull_request:
     branches: [ master ]
     paths:
@@ -18,18 +16,24 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+        
     - name: Install dependencies
       working-directory: src/
       run: dotnet restore
+      
     - name: Build
       working-directory: src/
       run: dotnet build --configuration Release --no-restore
+      
     - name: dotnet publish
       run: mkdir -p /home/runner/work/sampleApp/publish; dotnet publish -c Release -o /home/runner/work/sampleApp/publish
       working-directory: src/
+      
     - name: Build Drop Archive
       run: zip /home/runner/work/sampleApp/drop.zip -r /home/runner/work/sampleApp/publish/*
-    - name: Upload a Build Artifact
+      
+    - name: Publish a Build Artifact
+      if: github.event_name == 'release'
       uses: actions/upload-artifact@v2
       with:
         # Artifact name
