@@ -1,0 +1,39 @@
+name: .Net Core Build
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - src/**
+  pull_request:
+    branches: [ master ]
+    paths:
+      - src/**
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      working-directory: src/
+      run: dotnet restore
+    - name: Build
+      working-directory: src/
+      run: dotnet build --configuration Release --no-restore
+    - name: dotnet publish
+      run: mkdir -p /home/runner/work/sampleApp/publish; dotnet publish -c Release -o /home/runner/work/sampleApp/publish
+      working-directory: src/
+    - name: Build Drop Archive
+      run: zip /home/runner/work/sampleApp/drop.zip -r /home/runner/work/sampleApp/publish/*
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        # Artifact name
+        name: Drop
+        # A file, directory or wildcard pattern that describes what to upload
+        path: /home/runner/work/sampleApp/publish/
+    
