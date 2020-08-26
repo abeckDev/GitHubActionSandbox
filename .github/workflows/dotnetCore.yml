@@ -1,6 +1,7 @@
 name: .Net Core Build
 on:
   release:
+    types: [created]
   pull_request:
     branches: [ master ]
     paths:
