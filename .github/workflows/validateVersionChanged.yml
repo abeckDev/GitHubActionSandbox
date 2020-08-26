@@ -30,12 +30,14 @@ jobs:
       working-directory: newVersion
       run: |
         newVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
+        echo "::set-env name=newVersion::$newVersion"
         echo "Incoming Version: $newVersion"
         
     - name: Determine base Version 
       working-directory: baseVersion
       run: |
         baseVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
+        echo "::set-env name=baseVersion::$baseVersion"
         echo "Base Version: $baseVersion"   
         echo "Incoming Version: $newVersion"
         
