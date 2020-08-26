@@ -19,6 +19,11 @@ jobs:
         currentVersion=$(xmlstarlet sel -t -v '//Version' src/SampleWebApi.csproj)
         echo "::set-env name=currentVersion::$currentVersion"
         echo "Current Version: $currentVersion"
+        
+    - name: Debug Vars
+      run: |
+        env
+        echo "Version $currentVersion and $(currentVersion)
     
     - name: Commit tagger
       uses: tvdias/github-tagger@v0.0.2
