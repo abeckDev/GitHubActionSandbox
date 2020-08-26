@@ -4,7 +4,7 @@ on:
     paths: 
       - src/**
       
-name: Create Release Tag for master branch
+name: Create Release for master branch
 
 jobs:
   createReleaseTag:
@@ -25,12 +25,17 @@ jobs:
         env
         echo "Version $currentVersion and $(currentVersion)"
     
-    - name: Commit tagger
-      uses: tvdias/github-tagger@v0.0.2
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        # The GITHUB_TOKEN secret
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        # Tag text
-        tag: "v$currentVersion"
-        # optional commit sha to apply the tag to
-        commit-sha: ${{ github.sha }}
+        tag_name: v$currentVersion
+        release_name: Version $currentVersion
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: false
+        prerelease: false
