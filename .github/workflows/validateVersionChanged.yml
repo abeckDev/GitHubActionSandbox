@@ -43,7 +43,6 @@ jobs:
         
     - name: Compare Version
       run: |
-        env
         echo PR: $newVersion and Base: $baseVersion
         if [ "$newVersion" != "$baseVersion" ]
         then
