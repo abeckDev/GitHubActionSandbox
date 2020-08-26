@@ -23,7 +23,7 @@ jobs:
     - name: Debug Vars
       run: |
         env
-        echo "Version $currentVersion and $(currentVersion)
+        echo "Version $currentVersion and $(currentVersion)"
     
     - name: Commit tagger
       uses: tvdias/github-tagger@v0.0.2
