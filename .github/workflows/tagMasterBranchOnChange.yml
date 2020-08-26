@@ -26,6 +26,6 @@ jobs:
         # The GITHUB_TOKEN secret
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         # Tag text
-        tag: v$(currentVersion)
+        tag: v$currentVersion
         # optional commit sha to apply the tag to
         commit-sha: ${{ github.sha }}
